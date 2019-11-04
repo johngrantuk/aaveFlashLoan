@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@openzeppelin/contracts": "^2.3.0",
+    "@uniswap/sdk": "^1.0.0-beta.4",
+    "dotenv": "^8.1.0",
+    "ethereumjs-tx": "^2.1.1",
+    "truffle-assertions": "^0.9.1",
+    "truffle-hdwallet-provider": "^1.0.17",
+    "web3": "^1.2.1"
+  }
+}

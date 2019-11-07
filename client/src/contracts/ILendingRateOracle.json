@@ -1,0 +1,861 @@
+{
+  "contractName": "ILendingRateOracle",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_asset",
+          "type": "address"
+        }
+      ],
+      "name": "getMarketBorrowRate",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_asset",
+          "type": "address"
+        },
+        {
+          "name": "_rate",
+          "type": "uint256"
+        }
+      ],
+      "name": "setMarketBorrowRate",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_asset",
+          "type": "address"
+        }
+      ],
+      "name": "getMarketLiquidityRate",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_asset",
+          "type": "address"
+        },
+        {
+          "name": "_rate",
+          "type": "uint256"
+        }
+      ],
+      "name": "setMarketLiquidityRate",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"_asset\",\"type\":\"address\"},{\"name\":\"_rate\",\"type\":\"uint256\"}],\"name\":\"setMarketBorrowRate\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_asset\",\"type\":\"address\"},{\"name\":\"_rate\",\"type\":\"uint256\"}],\"name\":\"setMarketLiquidityRate\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_asset\",\"type\":\"address\"}],\"name\":\"getMarketBorrowRate\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_asset\",\"type\":\"address\"}],\"name\":\"getMarketLiquidityRate\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"getMarketBorrowRate(address)\":{\"details\":\"returns the market borrow rate in wei\"},\"getMarketLiquidityRate(address)\":{\"details\":\"returns the market borrow rate in wei\"},\"setMarketBorrowRate(address,uint256)\":{\"details\":\"sets the market borrow rate. Rate value must be in wei\"},\"setMarketLiquidityRate(address,uint256)\":{\"details\":\"sets the market borrow rate. Rate value must be in wei\"}},\"title\":\"ILendingRateOracle interface\"},\"userdoc\":{\"methods\":{\"getMarketBorrowRate(address)\":{\"notice\":\"*********\"},\"getMarketLiquidityRate(address)\":{\"notice\":\"*********\"},\"setMarketBorrowRate(address,uint256)\":{\"notice\":\"*********\"},\"setMarketLiquidityRate(address,uint256)\":{\"notice\":\"*********\"}},\"notice\":\"**********Interface for the Aave borrow rate oracle. Provides the average market borrow rate to be used as a base for the fixed borrow rate calculations\"}},\"settings\":{\"compilationTarget\":{\"/Users/jg/Documents/aaveBot/contracts/interfaces/ILendingRateOracle.sol\":\"ILendingRateOracle\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/jg/Documents/aaveBot/contracts/interfaces/ILendingRateOracle.sol\":{\"keccak256\":\"0xeeae2b67fa36103fe1c3a4e346b9c04171f9065949953abd00104c357834b0e3\",\"urls\":[\"bzzr://4e3bd29abfa796726532c3e42dd8039ab0f93388d7bbf358428dbc9b0399664a\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.5.0;\n\n/************\n@title ILendingRateOracle interface\n@notice Interface for the Aave borrow rate oracle. Provides the average market borrow rate to be used as a base for the fixed borrow rate calculations*/\n\ninterface ILendingRateOracle {\n    /***********\n    @dev returns the market borrow rate in wei\n     */\n    function getMarketBorrowRate(address _asset) external view returns (uint256);\n\n    /***********\n    @dev sets the market borrow rate. Rate value must be in wei\n     */\n    function setMarketBorrowRate(address _asset, uint256 _rate) external;\n\n    /***********\n    @dev returns the market borrow rate in wei\n     */\n    function getMarketLiquidityRate(address _asset) external view returns (uint256);\n\n    /***********\n    @dev sets the market borrow rate. Rate value must be in wei\n     */\n    function setMarketLiquidityRate(address _asset, uint256 _rate) external;\n\n}\n",
+  "sourcePath": "/Users/jg/Documents/aaveBot/contracts/interfaces/ILendingRateOracle.sol",
+  "ast": {
+    "absolutePath": "/Users/jg/Documents/aaveBot/contracts/interfaces/ILendingRateOracle.sol",
+    "exportedSymbols": {
+      "ILendingRateOracle": [
+        1909
+      ]
+    },
+    "id": 1910,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1880,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:18"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "**********\n@title ILendingRateOracle interface\n@notice Interface for the Aave borrow rate oracle. Provides the average market borrow rate to be used as a base for the fixed borrow rate calculations",
+        "fullyImplemented": false,
+        "id": 1909,
+        "linearizedBaseContracts": [
+          1909
+        ],
+        "name": "ILendingRateOracle",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "*********\n@dev returns the market borrow rate in wei",
+            "id": 1887,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getMarketBorrowRate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1883,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1882,
+                  "name": "_asset",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1887,
+                  "src": "365:14:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1881,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "365:7:18",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "364:16:18"
+            },
+            "returnParameters": {
+              "id": 1886,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1885,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1887,
+                  "src": "404:7:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1884,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "404:7:18",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "403:9:18"
+            },
+            "scope": 1909,
+            "src": "336:77:18",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "*********\n@dev sets the market borrow rate. Rate value must be in wei",
+            "id": 1894,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setMarketBorrowRate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1892,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1889,
+                  "name": "_asset",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1894,
+                  "src": "537:14:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1888,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "537:7:18",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1891,
+                  "name": "_rate",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1894,
+                  "src": "553:13:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1890,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "553:7:18",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "536:31:18"
+            },
+            "returnParameters": {
+              "id": 1893,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "576:0:18"
+            },
+            "scope": 1909,
+            "src": "508:69:18",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "*********\n@dev returns the market borrow rate in wei",
+            "id": 1901,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getMarketLiquidityRate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1897,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1896,
+                  "name": "_asset",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1901,
+                  "src": "687:14:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1895,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "687:7:18",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "686:16:18"
+            },
+            "returnParameters": {
+              "id": 1900,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1899,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1901,
+                  "src": "726:7:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1898,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "726:7:18",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "725:9:18"
+            },
+            "scope": 1909,
+            "src": "655:80:18",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "*********\n@dev sets the market borrow rate. Rate value must be in wei",
+            "id": 1908,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setMarketLiquidityRate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1906,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1903,
+                  "name": "_asset",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1908,
+                  "src": "862:14:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1902,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "862:7:18",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1905,
+                  "name": "_rate",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1908,
+                  "src": "878:13:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1904,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "878:7:18",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "861:31:18"
+            },
+            "returnParameters": {
+              "id": 1907,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "901:0:18"
+            },
+            "scope": 1909,
+            "src": "830:72:18",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 1910,
+        "src": "229:676:18"
+      }
+    ],
+    "src": "0:906:18"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/jg/Documents/aaveBot/contracts/interfaces/ILendingRateOracle.sol",
+    "exportedSymbols": {
+      "ILendingRateOracle": [
+        1909
+      ]
+    },
+    "id": 1910,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1880,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:18"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "**********\n@title ILendingRateOracle interface\n@notice Interface for the Aave borrow rate oracle. Provides the average market borrow rate to be used as a base for the fixed borrow rate calculations",
+        "fullyImplemented": false,
+        "id": 1909,
+        "linearizedBaseContracts": [
+          1909
+        ],
+        "name": "ILendingRateOracle",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "*********\n@dev returns the market borrow rate in wei",
+            "id": 1887,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getMarketBorrowRate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1883,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1882,
+                  "name": "_asset",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1887,
+                  "src": "365:14:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1881,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "365:7:18",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "364:16:18"
+            },
+            "returnParameters": {
+              "id": 1886,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1885,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1887,
+                  "src": "404:7:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1884,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "404:7:18",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "403:9:18"
+            },
+            "scope": 1909,
+            "src": "336:77:18",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "*********\n@dev sets the market borrow rate. Rate value must be in wei",
+            "id": 1894,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setMarketBorrowRate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1892,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1889,
+                  "name": "_asset",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1894,
+                  "src": "537:14:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1888,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "537:7:18",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1891,
+                  "name": "_rate",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1894,
+                  "src": "553:13:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1890,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "553:7:18",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "536:31:18"
+            },
+            "returnParameters": {
+              "id": 1893,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "576:0:18"
+            },
+            "scope": 1909,
+            "src": "508:69:18",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "*********\n@dev returns the market borrow rate in wei",
+            "id": 1901,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getMarketLiquidityRate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1897,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1896,
+                  "name": "_asset",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1901,
+                  "src": "687:14:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1895,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "687:7:18",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "686:16:18"
+            },
+            "returnParameters": {
+              "id": 1900,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1899,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1901,
+                  "src": "726:7:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1898,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "726:7:18",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "725:9:18"
+            },
+            "scope": 1909,
+            "src": "655:80:18",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "*********\n@dev sets the market borrow rate. Rate value must be in wei",
+            "id": 1908,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setMarketLiquidityRate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1906,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1903,
+                  "name": "_asset",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1908,
+                  "src": "862:14:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1902,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "862:7:18",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1905,
+                  "name": "_rate",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1908,
+                  "src": "878:13:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1904,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "878:7:18",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "861:31:18"
+            },
+            "returnParameters": {
+              "id": 1907,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "901:0:18"
+            },
+            "scope": 1909,
+            "src": "830:72:18",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 1910,
+        "src": "229:676:18"
+      }
+    ],
+    "src": "0:906:18"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.16",
+  "updatedAt": "2019-11-07T14:57:54.593Z",
+  "devdoc": {
+    "methods": {
+      "getMarketBorrowRate(address)": {
+        "details": "returns the market borrow rate in wei"
+      },
+      "getMarketLiquidityRate(address)": {
+        "details": "returns the market borrow rate in wei"
+      },
+      "setMarketBorrowRate(address,uint256)": {
+        "details": "sets the market borrow rate. Rate value must be in wei"
+      },
+      "setMarketLiquidityRate(address,uint256)": {
+        "details": "sets the market borrow rate. Rate value must be in wei"
+      }
+    },
+    "title": "ILendingRateOracle interface"
+  },
+  "userdoc": {
+    "methods": {
+      "getMarketBorrowRate(address)": {
+        "notice": "*********"
+      },
+      "getMarketLiquidityRate(address)": {
+        "notice": "*********"
+      },
+      "setMarketBorrowRate(address,uint256)": {
+        "notice": "*********"
+      },
+      "setMarketLiquidityRate(address,uint256)": {
+        "notice": "*********"
+      }
+    },
+    "notice": "**********Interface for the Aave borrow rate oracle. Provides the average market borrow rate to be used as a base for the fixed borrow rate calculations"
+  }
+}

@@ -4642,7 +4642,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-11-07T14:57:54.838Z",
+  "updatedAt": "2019-11-07T20:00:22.372Z",
   "devdoc": {
     "author": "Aave",
     "details": "Provides mul and div function for wads (decimal numbers with 18 digits precision) and rays (decimals with 27 digits)",

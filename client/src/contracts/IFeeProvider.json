@@ -828,7 +828,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-11-07T14:57:54.590Z",
+  "updatedAt": "2019-11-07T20:00:22.184Z",
   "devdoc": {
     "methods": {},
     "title": "IFeeProvider interface"

@@ -209,12 +209,11 @@ def tokenToEthInput(tokens_sold: uint256, min_eth: uint256(wei), deadline: times
     wei_bought: uint256(wei) = as_wei_value(eth_bought, 'wei')
     assert wei_bought >= min_eth
     send(recipient, wei_bought)
-    return 0
-    """
+    # return 0
+    """ """
     assert self.token.transferFrom(buyer, self, tokens_sold)
     log.EthPurchase(buyer, tokens_sold, wei_bought)
     return wei_bought
-    """
 
 
 # @notice Convert Tokens to ETH.

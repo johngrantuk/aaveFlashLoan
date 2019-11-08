@@ -7,6 +7,22 @@ A bot that does arbitrage between Uniswap and other exchanges. The idea is to do
 
 Decided to develop using Truffle as it's easy to write, test and deploy contracts, etc.
 
+## Compiling Contracts & Deploying To Kovan
+
+Previously setup Vyper so that UniSwap contracts can be compiled. (JG Local - Make sure to activate dev env before compile: $ pyenv activate uniswap)
+
+Deploy to Kovan:
+* Check ./migrations/2_deploy_contracts.js is configured to deploy required contracts.
+* Run: $ truffle deploy --network kovan
+Then run $ node UniSwapSetUp.js to create exchanges with Pool.
+
+##
+
+UniSwapSetUp.js:
+SetUp() is Used to initially deploy to UniSwap Exchanges and add some initial Pool liquidity.
+ChangePrice() This script exectutes an Eth -> Token trade on the LeaderExchange. Reducing Eth price and raising Token price in leader Exchange.
+
+
 ## Kyber/UniSwap Implementation
 
 As Balancer contract interfaces aren't ready yet decided to interface to [Kyber Network](https://developer.kyber.network/docs/Start/), an on-chain liquidity protocol. This demonstrates swapping between two protocols using the Arb proxy contract. The contract and bot is written in a way that make it easy to swap out the Kyber function for Balancer.

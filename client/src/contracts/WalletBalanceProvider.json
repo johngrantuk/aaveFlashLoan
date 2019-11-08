@@ -3757,7 +3757,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-11-07T14:57:54.845Z",
+  "updatedAt": "2019-11-07T20:00:22.375Z",
   "devdoc": {
     "author": "Aave, influenced by https://github.com/wbobeirne/eth-balance-checker/blob/master/contracts/BalanceChecker.sol",
     "details": "NOTE: THIS CONTRACT IS NOT USED WITHIN THE AAVE PROTOCOL. It's an accessory contract used to reduce the number of calls towards the blockchain.************************************************************************************",

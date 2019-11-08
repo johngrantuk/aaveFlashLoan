@@ -26,7 +26,7 @@ async function run(){
 
   const LendingPoolInstance = new web3.eth.Contract(LendingPool.abi, lendingPool);
 
-  var receiverContract = '0xb544f44905dBc94e096576898debAD22b6A2F3C1';    // My contract that implements the IFLashLoanReceiver interface
+  var receiverContract = '0xb544f44905dBc94e096576898debAD22b6A2F3C1';    // My contract that implements the IFLashLoanReceiver interface, this one is just the example with an event to show when it works
   // var reserveAddr = '0x804C0B38593796bD44126102C8b5e827Cf389D80';     // Should be Eth reserve address??
   var reserveAddr = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD';
   var amountWei = web3.utils.toWei('0.001', 'ether');

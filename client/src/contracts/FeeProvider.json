@@ -2153,7 +2153,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-11-07T14:57:54.586Z",
+  "updatedAt": "2019-11-07T20:00:22.181Z",
   "devdoc": {
     "methods": {
       "calculateLoanOriginationFee(address,uint256)": {

@@ -42,6 +42,7 @@ exports.getEffectivePrices = async function (web3, ethSpendWei, exchangeEthBalan
   if(display){
     console.log('Spend: ' + web3.utils.fromWei(ethSpendWei.toString(10), 'ether'));
     console.log('Tokens To Buy: ' + web3.utils.fromWei(tokensToBuyWei.toString(10), 'ether'));
+    console.log(tokensToBuyWei.toString(10))
     console.log('Effective Price: ' + effectivePriceBN.toString(10));
   }
 

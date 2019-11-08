@@ -6529,7 +6529,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-11-07T14:57:54.598Z",
+  "updatedAt": "2019-11-07T20:00:22.192Z",
   "devdoc": {
     "methods": {
       "calculateInterestRates(address,uint256,uint256,uint256,uint256)": {

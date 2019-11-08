@@ -1,3 +1,5 @@
+// Main  main Arb bot that is checking for an Arb opportunity between the two UniSwap pools. If an opportunity is found FlashLoanArb function calls the FlashLoan.
+// Also a Web3 only method that executes trades directly.
 const Web3 = require("web3");
 const fs = require('fs');
 const ERC20Token =  JSON.parse(fs.readFileSync("./client/src/contracts/ERC20Token.json"));
@@ -12,11 +14,11 @@ require('dotenv').config();
 
 let data, output;
 
-TRADELIVE = false;
+TRADELIVE = false;                                                        // Change this to true to execute trades
 
 BigNumber.set({ DECIMAL_PLACES: 18});
 
-const TRADER_ACCOUNT = '0xeE398666cA860DFb7390b5D73EE927e9Fb41a60A';      // take from ganache-cli if needed
+const TRADER_ACCOUNT = '0xeE398666cA860DFb7390b5D73EE927e9Fb41a60A';
 const DAI_ADDRESS = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD';
 
 let id, DaiTokenInstance, UniSwapFactoryInstance, UniSwapExchangeInstance, leaderExchangeAddr, followerExchangeAddr;
@@ -24,7 +26,7 @@ let id, DaiTokenInstance, UniSwapFactoryInstance, UniSwapExchangeInstance, leade
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.INFURAKOVAN));
 
 async function run(){
-
+  // Main function that will run and check for Arb op
   var id = await web3.eth.net.getId();
 
   DaiTokenInstance = new web3.eth.Contract(ERC20Token.abi, DAI_ADDRESS);
@@ -79,8 +81,8 @@ async function run(){
 
       let ethSpendWei = web3.utils.toWei(ethSpend.toString(10), 'ether');                                    // Amount of Eth that will be spent on trade
 
-      //profit = await CalculateProfitFollowerToLeader(ethSpendWei, followerExTokenBalanceWei, followerExEthBalanceWei, leaderExEthBalanceWei, leaderExTokenBalanceWei, trade)
-      profit = await CalculateProfitFollowerToLeader(ethSpendWei, leaderExEthBalanceWei, leaderExTokenBalanceWei, followerExTokenBalanceWei, followerExEthBalanceWei, trade)
+      //profit = await CalculateProfit(ethSpendWei, followerExTokenBalanceWei, followerExEthBalanceWei, leaderExEthBalanceWei, leaderExTokenBalanceWei, trade)
+      profit = await CalculateProfit(ethSpendWei, leaderExEthBalanceWei, leaderExTokenBalanceWei, followerExTokenBalanceWei, followerExEthBalanceWei, trade)    // Checks if it's possible to make a profit
 
       if(profit.profit.isGreaterThan(maxProfit)){
         trade.push('New max profit');
@@ -132,8 +134,8 @@ async function run(){
     }
 
     console.log('\n******** Arb Op ***********');
-    // Web3Arb(maxProfit, maxProfitSpend, tokensToBuy);
-    await FlashLoanArb(maxProfit, maxProfitSpend)
+    // Web3Arb(maxProfit, maxProfitSpend, tokensToBuy);                         // This executes UniSwap swaps using web3.
+    await FlashLoanArb(maxProfit, maxProfitSpend)                               // This executes via FlashLoan contract.
 
     console.log('*****************************')
     console.log('--------------------------------------------');
@@ -142,7 +144,7 @@ async function run(){
 }
 
 async function FlashLoanArb(maxProfit, maxProfitSpend){
-
+  // Uses an Aave flash loan to execute trades. See ./contracts/FlashLoanReceiverArb.sol and also README for more details.
   console.log(maxProfit.toString(10))
   console.log('Max Profit at: ' + maxProfitSpend + ' ' + web3.utils.fromWei(maxProfit.toString(10), 'ether'));
 
@@ -173,6 +175,7 @@ async function FlashLoanArb(maxProfit, maxProfitSpend){
 }
 
 async function Web3Arb(maxProfit, maxProfitSpend, tokensToBuy){
+  // Uses Web3 to interact with UniSwap directly.
   var followerTokenBalanceStartWei = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
   var leaderTokenBalanceStartWei = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
   var ethBalanceStartWei = await web3.eth.getBalance(TRADER_ACCOUNT);
@@ -222,7 +225,8 @@ async function Web3Arb(maxProfit, maxProfitSpend, tokensToBuy){
   console.log('Profit: ' + web3.utils.fromWei(realisedProfit.toString(10), 'ether'));
 }
 
-async function CalculateProfitFollowerToLeader(ethSpendWei, followerExTokenBalanceWei, followerExEthBalanceWei, leaderExEthBalanceWei, leaderExTokenBalanceWei, trade){
+async function CalculateProfit(ethSpendWei, followerExTokenBalanceWei, followerExEthBalanceWei, leaderExEthBalanceWei, leaderExTokenBalanceWei, trade){
+  // Calculates profit for Arb opportunity.
   let ethSpendWeiBN = new BigNumber(ethSpendWei);
   // var followerEffectivePrice = await Util.getEffectivePrices(web3, ethSpendWei, followerExEthBalanceWei, followerExTokenBalanceWei, false);
   var followerEffectivePrice = await Util.getEffectivePrices(web3, ethSpendWei, followerExTokenBalanceWei, followerExEthBalanceWei, false);
@@ -246,6 +250,7 @@ async function CalculateProfitFollowerToLeader(ethSpendWei, followerExTokenBalan
 }
 
 async function PoolInfo(){
+  // Displays UniSwap pool information.
   var leaderExEthBalanceWei = await web3.eth.getBalance(leaderExchangeAddr);
   var leaderExTokenBalanceWei = await DaiTokenInstance.methods.balanceOf(leaderExchangeAddr).call();
   var followerExEthBalanceWei = await web3.eth.getBalance(followerExchangeAddr);

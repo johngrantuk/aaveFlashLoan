@@ -1,4 +1,4 @@
-// 
+//
 const Web3 = require("web3");
 const fs = require('fs');
 const LendingPoolAddressesProvider = JSON.parse(fs.readFileSync("client/src/contracts/LendingPoolAddressesProvider.json"));
@@ -69,5 +69,5 @@ async function testArbContract(){
 }
 
 
-// testBasicExample();
-testArbContract();
+testBasicExample();
+// testArbContract();

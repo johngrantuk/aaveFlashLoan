@@ -9,7 +9,7 @@ import "./configuration/NetworkMetadataProvider.sol";
 
 import "./UniswapExchange.sol";
 
-contract FlashLoanReceiverExample is FlashLoanReceiverBase {
+contract FlashLoanReceiverArb is FlashLoanReceiverBase {
 
     using SafeMath for uint256;
 

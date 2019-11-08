@@ -3,6 +3,8 @@ const fs = require('fs');
 const ERC20Token =  JSON.parse(fs.readFileSync("./client/src/contracts/ERC20Token.json"));
 const UniSwapFactory = JSON.parse(fs.readFileSync("./client/src/contracts/uniswap_factory_custom.json"));
 const UniSwapExchange = JSON.parse(fs.readFileSync("./client/src/contracts/uniswap_exchange_custom.json"));
+const LendingPoolAddressesProvider = JSON.parse(fs.readFileSync("client/src/contracts/LendingPoolAddressesProvider.json"));
+const LendingPool = JSON.parse(fs.readFileSync("client/src/contracts/LendingPool.json"));
 const BigNumber = require('bignumber.js');
 const Util = require("./client/src/utils/utils");
 const {table} = require('table');
@@ -130,65 +132,94 @@ async function run(){
     }
 
     console.log('\n******** Arb Op ***********');
-    var followerTokenBalanceStartWei = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
-    var leaderTokenBalanceStartWei = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
-    var ethBalanceStartWei = await web3.eth.getBalance(TRADER_ACCOUNT);
-    console.log(maxProfit.toString(10))
-    console.log('Max Profit at: ' + maxProfitSpend + ' ' + web3.utils.fromWei(maxProfit.toString(10), 'ether'));
+    // Web3Arb(maxProfit, maxProfitSpend, tokensToBuy);
+    await FlashLoanArb(maxProfit, maxProfitSpend)
 
-    let ethSpendWei = web3.utils.toWei(maxProfitSpend.toString(), 'ether');
-
-    var block = await web3.eth.getBlock("latest");
-    const DEADLINE = block.timestamp + 300;
-    var slippage = new BigNumber('0.997');
-    // var minTokensWeiBNCheck = prices.tokensToBuyWeiBN.multipliedBy(slippage).precision(18);
-
-    var minTokensWeiBN = tokensToBuy.multipliedBy(slippage).precision(18);
-    var wei = new BigNumber(1e18);
-    var minTokensEthBN = minTokensWeiBN.dividedBy(wei);
-    var minTokensWei = web3.utils.toWei(minTokensEthBN.toString(10), 'ether');
-    // console.log(minTokensEthBN.toString(10))
-    // console.log(tokensToBuy.toString(10))
-    // console.log(minTokensWei.toString(10))
-    const followerContract = new web3.eth.Contract(UniSwapExchange.abi, followerExchangeAddr);
-
-    var traderFollowerBalanceStart = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
-    var traderFollowerBalanceStartBN = new BigNumber(traderFollowerBalanceStart.toString(10));
-
-    var tx = await followerContract.methods.ethToTokenSwapInput(minTokensWei, DEADLINE);
-    if(TRADELIVE)
-      await Util.sendTransactionWithValue(web3, tx, TRADER_ACCOUNT, process.env.PRIVATEKEY, followerExchangeAddr, ethSpendWei);    // Would be good to get return value here as its should be actual amount of tokens bought
-
-    var traderFollowerBalanceEnd = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
-    var traderFollowerBalanceEndBN = new BigNumber(traderFollowerBalanceEnd.toString(10));
-    var bought = traderFollowerBalanceEndBN.minus(traderFollowerBalanceStartBN);
-    console.log('!!BOUGHT: ' + bought.toString(10));
-
-    // Sell tokens for eth
-    var tokensToSellWei = web3.utils.toWei(tokensToBuy.toString(10), 'wei');
-
-    const leaderContract = new web3.eth.Contract(UniSwapExchange.abi, leaderExchangeAddr);
-    tx = await leaderContract.methods.tokenToEthSwapInput(tokensToSellWei, ethSpendWei, DEADLINE);
-    if(TRADELIVE)
-      await Util.sendTransaction(web3, tx, TRADER_ACCOUNT, process.env.PRIVATEKEY, leaderExchangeAddr);
-
-    var followerBalanceWei = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
-    var leaderBalanceWei = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
-    var ethBalanceFinish = await web3.eth.getBalance(TRADER_ACCOUNT);
-    var realisedProfit = BigNumber(ethBalanceFinish).minus(BigNumber(ethBalanceStartWei));
-    console.log('Profit: ' + web3.utils.fromWei(realisedProfit.toString(10), 'ether'));
     console.log('*****************************')
-    /*
-    console.log('Old Trade Balance Follower Token: ' + web3.utils.fromWei(followerTokenBalanceStartWei.toString(10), 'ether'));
-    console.log('New Trade Balance Follower Token: ' + web3.utils.fromWei(followerBalanceWei.toString(10), 'ether'));
-    console.log('Old Trade Balance Leader Token: ' + web3.utils.fromWei(leaderTokenBalanceStartWei.toString(10), 'ether'));
-    console.log('New Trade Balance Leader Token: ' + web3.utils.fromWei(leaderBalanceWei.toString(10), 'ether'));
-    console.log('Old Trade Eth: ' + web3.utils.fromWei(ethBalanceStartWei.toString(10), 'ether'));
-    console.log('New Trade Eth: ' + web3.utils.fromWei(ethBalanceFinish.toString(10), 'ether'));
-    */
     console.log('--------------------------------------------');
 
   }
+}
+
+async function FlashLoanArb(maxProfit, maxProfitSpend){
+
+  console.log(maxProfit.toString(10))
+  console.log('Max Profit at: ' + maxProfitSpend + ' ' + web3.utils.fromWei(maxProfit.toString(10), 'ether'));
+
+  /// Retrieve the LendingPool address
+  const LendingPoolAddressesProviderInstance = new web3.eth.Contract(LendingPoolAddressesProvider.abi, '0x9C6C63aA0cD4557d7aE6D9306C06C093A2e35408');
+  const lendingPool = await LendingPoolAddressesProviderInstance.methods.getLendingPool().call();
+
+  const LendingPoolInstance = new web3.eth.Contract(LendingPool.abi, lendingPool);
+
+  var receiverContract = '0x1ED5840AB41D578584232C13314de1d73B2F5CC3';    // Kovan deployed of FlashLoanReceiverArb.sol
+  var reserveAddr = '0xFf795577d9AC8bD7D90Ee22b6C1703490b6512FD';         // This is the DAI address and it is confirmed as working
+  var loanAmountWei = web3.utils.toWei(maxProfitSpend.toString(), 'ether');
+
+  const reserveData = await LendingPoolInstance.methods.getReserveData(reserveAddr).call();
+  console.log('Reserve Data: ');
+  console.log(reserveData);                                             // This shows amount in provider.
+
+  console.log('FlashLoan Arb');
+  console.log('Creating tx');
+  const tx =  LendingPoolInstance.methods.flashLoan(receiverContract, reserveAddr, loanAmountWei);
+  console.log('Sending tx');
+  if(TRADELIVE){
+    var rx = await Util.sendTransaction(web3, tx, TRADER_ACCOUNT_ADDR, process.env.PRIVATEKEY, lendingPool);
+    console.log(rx)
+  }else{
+    await sleep(6000);
+  }
+}
+
+async function Web3Arb(maxProfit, maxProfitSpend, tokensToBuy){
+  var followerTokenBalanceStartWei = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
+  var leaderTokenBalanceStartWei = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
+  var ethBalanceStartWei = await web3.eth.getBalance(TRADER_ACCOUNT);
+  console.log(maxProfit.toString(10))
+  console.log('Max Profit at: ' + maxProfitSpend + ' ' + web3.utils.fromWei(maxProfit.toString(10), 'ether'));
+
+  let ethSpendWei = web3.utils.toWei(maxProfitSpend.toString(), 'ether');
+
+  var block = await web3.eth.getBlock("latest");
+  const DEADLINE = block.timestamp + 300;
+  var slippage = new BigNumber('0.997');
+  // var minTokensWeiBNCheck = prices.tokensToBuyWeiBN.multipliedBy(slippage).precision(18);
+
+  var minTokensWeiBN = tokensToBuy.multipliedBy(slippage).precision(18);
+  var wei = new BigNumber(1e18);
+  var minTokensEthBN = minTokensWeiBN.dividedBy(wei);
+  var minTokensWei = web3.utils.toWei(minTokensEthBN.toString(10), 'ether');
+  // console.log(minTokensEthBN.toString(10))
+  // console.log(tokensToBuy.toString(10))
+  // console.log(minTokensWei.toString(10))
+  const followerContract = new web3.eth.Contract(UniSwapExchange.abi, followerExchangeAddr);
+
+  var traderFollowerBalanceStart = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
+  var traderFollowerBalanceStartBN = new BigNumber(traderFollowerBalanceStart.toString(10));
+
+  var tx = await followerContract.methods.ethToTokenSwapInput(minTokensWei, DEADLINE);
+  if(TRADELIVE)
+    await Util.sendTransactionWithValue(web3, tx, TRADER_ACCOUNT, process.env.PRIVATEKEY, followerExchangeAddr, ethSpendWei);    // Would be good to get return value here as its should be actual amount of tokens bought
+
+  var traderFollowerBalanceEnd = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
+  var traderFollowerBalanceEndBN = new BigNumber(traderFollowerBalanceEnd.toString(10));
+  var bought = traderFollowerBalanceEndBN.minus(traderFollowerBalanceStartBN);
+  console.log('!!BOUGHT: ' + bought.toString(10));
+
+  // Sell tokens for eth
+  var tokensToSellWei = web3.utils.toWei(tokensToBuy.toString(10), 'wei');
+
+  const leaderContract = new web3.eth.Contract(UniSwapExchange.abi, leaderExchangeAddr);
+  tx = await leaderContract.methods.tokenToEthSwapInput(tokensToSellWei, ethSpendWei, DEADLINE);
+  if(TRADELIVE)
+    await Util.sendTransaction(web3, tx, TRADER_ACCOUNT, process.env.PRIVATEKEY, leaderExchangeAddr);
+
+  var followerBalanceWei = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
+  var leaderBalanceWei = await DaiTokenInstance.methods.balanceOf(TRADER_ACCOUNT).call();
+  var ethBalanceFinish = await web3.eth.getBalance(TRADER_ACCOUNT);
+  var realisedProfit = BigNumber(ethBalanceFinish).minus(BigNumber(ethBalanceStartWei));
+  console.log('Profit: ' + web3.utils.fromWei(realisedProfit.toString(10), 'ether'));
 }
 
 async function CalculateProfitFollowerToLeader(ethSpendWei, followerExTokenBalanceWei, followerExEthBalanceWei, leaderExEthBalanceWei, leaderExTokenBalanceWei, trade){

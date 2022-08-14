@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@openzeppelin/contracts": "^2.3.0",
+    "@openzeppelin/contracts": "^4.7.2",
     "@uniswap/sdk": "^1.0.0-beta.4",
     "dotenv": "^8.1.0",
     "ethereumjs-tx": "^2.1.1",
